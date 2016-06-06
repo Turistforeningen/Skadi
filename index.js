@@ -47,6 +47,7 @@ app.get('/', (req, res) => {
   res.json({
     v1: {
       albums_url: `${req.fullUrl}/v1/albums`,
+      photos_url: `${req.fullUrl}/v1/albums/{album}/photos`,
     },
   });
 });
@@ -82,6 +83,41 @@ app.get('/v1/albums', (req, res, next) => {
       return album;
     });
 
+    // @TODO add links header
+
+    return res.json(body);
+  });
+});
+
+app.get('/v1/albums/:album/photos', (req, res, next) => {
+  const albumId = req.params.album;
+
+  const opts = {
+    url: `${process.env.FOTOWEB_API_URL}/data/a/${albumId}/`,
+    json: true,
+    headers: {
+      Accept: 'application/vnd.fotoware.assetlist+json',
+      FWAPIToken: process.env.FOTOWEB_API_TOKEN,
+    },
+  };
+
+  request.get(opts, (err, resp, body) => {
+    if (err) {
+      return next(new HttpError('Fotoweb API Failed', 502, err));
+    } else if (body.value === 'Unauthorized') {
+      return next(new HttpError('Fotoweb API Authentication Failed', 502));
+    } else if (body.value === 'NotAcceptable') {
+      return next(new HttpError('Fotoweb API did not accept mediatype', 502));
+    } else if (body.value === 'ArchiveNotFound') {
+      return next(new HttpError('Album Not Found', 404));
+    } else if (res.statusCode !== 200) {
+      return next(new HttpError(`Fotoweb API returned "${res.statusCode}"`, 502));
+    } else if (typeof body.data === 'undefined') {
+      return next(new HttpError('Fotoweb API returned no data', 502));
+    }
+
+    // @TODO add full url to `previews[i].href`
+    // @TODO unroll and translate `metadata` properties
     // @TODO add links header
 
     return res.json(body);

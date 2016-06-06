@@ -110,4 +110,102 @@ describe('server', () => {
         done();
       });
   });
+
+  it('photos', done => {
+    const url = `/v1/albums/${albumId}/photos`;
+
+    app.get(url)
+      .set('Origin', 'https://foo.com')
+      .expect(200)
+      .end((err, res) => {
+        assert.ifError(err);
+
+        const schema = {
+          data: Joi.array().items(Joi.object().keys({
+            href: Joi.string(),
+            archiveHREF: Joi.string(),
+            linkstance: Joi.string(),
+            created: Joi.date().iso(),
+            createdBy: Joi.string(),
+            modified: Joi.date().iso(),
+            modifiedBy: Joi.string(),
+            filename: Joi.string(),
+            filesize: Joi.number().integer(),
+            uniqueid: Joi.string().allow(''),
+            permissions: Joi.array().items(Joi.string()),
+            pincount: Joi.number().integer(),
+            previewcount: Joi.number().integer(),
+            downloadcount: Joi.number().integer(),
+            workflowcount: Joi.number().integer(),
+            metadataeditcount: Joi.number().integer(),
+            revisioncount: Joi.number().integer(),
+            doctype: Joi.string().valid('image'),
+            previews: Joi.array(),
+            quickRenditions: Joi.array(),
+            metadataEditor: Joi.object(),
+            renditions: Joi.array(),
+            attributes: Joi.object().keys({
+              imageattributes: Joi.object().keys({
+                pixelwidth: Joi.number().integer(),
+                pixelheight: Joi.number().integer(),
+                resolution: Joi.number().integer(),
+                flipmirror: Joi.number().integer(),
+                rotation: Joi.number().integer().valid([-180, -90, 0, 90, 180]),
+                colorspace: Joi.string(),
+              }),
+              photoAttributes: Joi.object().keys({
+                cameraModel: Joi.string(),
+                exposure: Joi.object(),
+                fNumber: Joi.number(),
+                focalLength: Joi.number().integer(),
+                isoSpeed: Joi.number().integer(),
+                flash: Joi.object(),
+              }),
+            }),
+            metadata: Joi.object().keys({
+              5: Joi.object().keys({
+                value: Joi.string(),
+              }).description('Tittel'),
+              20: Joi.object().keys({
+                value: Joi.array().items(Joi.string()),
+              }).description('Arkiv'),
+              25: Joi.object().keys({
+                value: Joi.array().items(Joi.string()),
+              }).description('Nøkkelord'),
+              40: Joi.object().keys({
+                value: Joi.string(),
+              }).description('Bruksbegrensning'),
+              80: Joi.object().keys({
+                value: Joi.array().items(Joi.string()),
+              }).description('Fotograf'),
+              120: Joi.object().keys({
+                value: Joi.string(),
+              }).description('Beskrivelse'),
+              220: Joi.object().keys({
+                value: Joi.string(),
+              }).description('Personer i bildet'),
+              221: Joi.object().keys({
+                value: Joi.string(),
+              }).description('Sted'),
+              222: Joi.object().keys({
+                value: Joi.string(),
+              }).description('Område'),
+              320: Joi.object(),
+            }),
+            props: Joi.object(),
+          })),
+          paging: Joi.object().keys({
+            prev: Joi.string().allow(''),
+            next: Joi.string().allow(''),
+            first: Joi.string().allow(''),
+            last: Joi.string().allow(''),
+          }).allow(null),
+        };
+
+        const { error } = Joi.validate(res.body, schema);
+        assert.ifError(error);
+
+        done();
+      });
+  });
 });
