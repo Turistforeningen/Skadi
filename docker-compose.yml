@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  node:
+    image: node:6
+    network_mode: 'bridge'
+    working_dir: /usr/src/app
+    ports:
+        - 8080
+    volumes:
+        - .:/usr/src/app
+    command: npm start
+    env_file: .env
+    environment:
+        - NODE_ENV=development
+        - VIRTUAL_HOST=skadi.app.dnt.privat
+        - VIRTUAL_PORT=8080
+        - NPM_CONFIG_SPIN=false
+        - NPM_CONFIG_PROGRESS=false
