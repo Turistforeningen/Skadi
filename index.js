@@ -1,5 +1,6 @@
 'use strict';
 
+/* istanbul ignore if  */
 if (process.env.NODE_ENV === 'production') {
   /* eslint-disable no-console */
   console.log('Starting newrelic application monitoring');
@@ -153,7 +154,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   res.status(err.code).json(err.toJSON());
 });
 
-/* istanbul ignore next */
+/* istanbul ignore if */
 if (!module.parent) {
   const port = process.env.VIRTUAL_PORT || 8080;
 
