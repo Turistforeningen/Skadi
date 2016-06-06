@@ -25,9 +25,9 @@ describe('cors', () => {
 
   it('accepts request from known domain', done => {
     app.get('/')
-      .set('Origin', 'https://foo.com')
+      .set('Origin', 'https://example1.com')
       .expect(200)
-      .expect('Access-Control-Allow-Origin', 'https://foo.com')
+      .expect('Access-Control-Allow-Origin', 'https://example1.com')
       .expect('Access-Control-Allow-Methods', 'GET, OPTIONS')
       .expect('Access-Control-Expose-Headers', 'x-response-time')
       .expect('Access-Control-Allow-Max-Age', '0')
