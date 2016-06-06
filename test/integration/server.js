@@ -19,7 +19,9 @@ describe('server', () => {
       .end(done);
   });
 
-  it('albums', done => {
+  it('albums', function it(done) {
+    this.timeout(10000);
+
     const url = '/v1/albums/';
 
     app.get(url)
@@ -111,7 +113,9 @@ describe('server', () => {
       });
   });
 
-  it('photos', done => {
+  it('photos', function it(done) {
+    this.timeout(10000);
+
     const url = `/v1/albums/${albumId}/photos`;
 
     app.get(url)
