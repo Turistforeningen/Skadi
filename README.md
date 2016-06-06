@@ -5,7 +5,7 @@
 [![Codacy coverage](https://img.shields.io/codacy/coverage/71b0ef25650b404894e489ad164ad0ef.svg "Codacy coverage")](https://www.codacy.com/app/starefossen/Skadi)
 [![NPM downloads](https://img.shields.io/npm/dm/Skadi.svg "NPM downloads")](https://www.npmjs.com/package/Skadi)
 [![NPM version](https://img.shields.io/npm/v/Skadi.svg "NPM version")](https://www.npmjs.com/package/Skadi)
-[![Node version](https://img.shields.io/node/v/skadi.svg "Node version")](https://www.npmjs.com/package/skadi)
+[![Node version](https://img.shields.io/node/v/Skadi.svg "Node version")](https://www.npmjs.com/package/Skadi)
 [![Dependency status](https://img.shields.io/david/Turistforeningen/Skadi.svg "Dependency status")](https://david-dm.org/Turistforeningen/Skadi)
 
 A semantic cors proxy for the Fotoware / Fotoweb REST API. Making it possible to
