@@ -39,8 +39,18 @@ const healthCheck = require('@starefossen/express-health');
 app.get('/CloudHealthCheck', healthCheck({
   name: 'Fotoweb',
   check: cb => {
-    // @TODO implement proper API health check
-    cb(null, 'Hello');
+    const opts = {
+      url: `${process.env.FOTOWEB_API_URL}/`,
+      json: true,
+      headers: {
+        Accept: 'application/vnd.fotoware.api-descriptor+json',
+        FWAPIToken: process.env.FOTOWEB_API_TOKEN,
+      },
+    };
+
+    request.get(opts, (err, resp, body) => {
+      cb(err, body);
+    });
   },
 }));
 
