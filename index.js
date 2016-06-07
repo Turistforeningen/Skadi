@@ -178,7 +178,7 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
       // the Fotoweb base url client side.
 
       photo.previews = photo.previews.map(preview => {
-        preview.href = [ fotoweb.BASE_URL, preview.href ].join('');
+        preview.href = [fotoweb.BASE_URL, preview.href].join('');
         return preview;
       });
 
