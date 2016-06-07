@@ -134,6 +134,31 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
       photo.id = photoId;
       photo.albumId = albumId;
 
+      // Photo metadata are returned as cyptic integers keys from the API on the
+      // following format:
+      //
+      // "metadata": {
+      //   "80": { value: [ "Marius Dalseg Sætre" ] },
+      //   "120": { value: "Påsken 2016. Liomseter\nFoto Marius Dalseg Sætre" },
+      //   "221": { value: "Liomseter" },
+      //   "222": { value: "Langsua" },
+      //   "320": { value: "5" }
+      // }
+      //
+      // To the person who tought  this was a good way to integrate with other
+      // applications; what where  you smoking???
+      //
+      // So, in order to prevent further frustration when integrating we
+      // will translate the integres into properly named fields to make them
+      // usable like this:
+      //
+      // "metadata": {
+      //   "photagraphers": [ "Marius Dalseg Sætre" ],
+      //   "desciption": "Påsken 2016. Liomseter\nFoto Marius Dalseg Sætre",
+      //   "place": "Liomseter",
+      //   "area": "Langsua" }
+      // }
+
       const metadata = {};
 
       for (const key in photo.metadata) {
