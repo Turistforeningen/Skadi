@@ -169,6 +169,14 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
 
       photo.metadata = metadata;
 
+      // Preview urls are relative URLs to the domain of the Fotoweb
+      // installation. If you intend to integrate outside of Fotoweb (why else
+      // would you use the API) this does not make any sense at all!
+      //
+      // We make all them previews urls full URIs so we can just store them in a
+      // database or display them directly to a user without having to prefix
+      // the Fotoweb base url client side.
+
       photo.previews = photo.previews.map(preview => {
         preview.href = [ fotoweb.BASE_URL, preview.href ].join('');
         return preview;
