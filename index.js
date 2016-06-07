@@ -10,6 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const raven = require('raven');
 const sentry = require('./lib/sentry');
+const fotoweb = require('./lib/fotoweb');
 const request = require('request');
 
 const express = require('express');
@@ -127,8 +128,21 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
       return next(new HttpError('Fotoweb API returned no data', 502));
     }
 
+    body.data = body.data.map(photo => {
+      const metadata = {};
+
+      for (const key in photo.metadata) {
+        if (fotoweb.PHOTO_METADATA_KEYS.has(key)) {
+          metadata[fotoweb.PHOTO_METADATA_KEYS.get(key)] = photo.metadata[key].value;
+        }
+      }
+
+      photo.metadata = metadata;
+
+      return photo;
+    });
+
     // @TODO add full url to `previews[i].href`
-    // @TODO unroll and translate `metadata` properties
     // @TODO add links header
 
     return res.json(body);

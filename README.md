@@ -69,13 +69,20 @@ $ curl https://example.com/v1/albums/{album}/photos
 {
   "data": [{
     "filename": "_DSC0045_1.JPG",
-    "previews": [{...}, {...}, ...],
-    "metadata": {20: {...}, 25: {...}, ...],
+    "previews": [{}, {}, {}],
+    "metadata": {
+      "albums": ["Blinkskudd", "DNT Sentralt"],
+      "tags": ["finvær", "hytte", "vinter"],
+      "photographers": "Marius Dalseg Sætre",
+      "description": "Påskereportasje Liomseter",
+      "place": "Liomseter",
+      "area": "Langsua"
+    },
     ...
   }, {
     "filename": "_DSC0045.JPG",
-    "previews": [{...}, {...}, ...],
-    "metadata": {20: {...}, 25: {...}, ...],
+    "previews": [{}, {}, {}],
+    "metadata": {},
     ...
   }],
   "paging": {...}

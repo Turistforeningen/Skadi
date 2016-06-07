@@ -167,34 +167,15 @@ describe('server', () => {
               }),
             }),
             metadata: Joi.object().keys({
-              5: Joi.object().keys({
-                value: Joi.string(),
-              }).description('Tittel'),
-              20: Joi.object().keys({
-                value: Joi.array().items(Joi.string()),
-              }).description('Arkiv'),
-              25: Joi.object().keys({
-                value: Joi.array().items(Joi.string()),
-              }).description('Nøkkelord'),
-              40: Joi.object().keys({
-                value: Joi.string(),
-              }).description('Bruksbegrensning'),
-              80: Joi.object().keys({
-                value: Joi.array().items(Joi.string()),
-              }).description('Fotograf'),
-              120: Joi.object().keys({
-                value: Joi.string(),
-              }).description('Beskrivelse'),
-              220: Joi.object().keys({
-                value: Joi.string(),
-              }).description('Personer i bildet'),
-              221: Joi.object().keys({
-                value: Joi.string(),
-              }).description('Sted'),
-              222: Joi.object().keys({
-                value: Joi.string(),
-              }).description('Område'),
-              320: Joi.object(),
+              title: Joi.string(),
+              albums: Joi.array().items(Joi.string()),
+              tags: Joi.array().items(Joi.string()),
+              copyright: Joi.string(),
+              photographers: Joi.array().items(Joi.string()),
+              description: Joi.string(),
+              persons: Joi.string(),
+              place: Joi.string(),
+              area: Joi.string(),
             }),
             props: Joi.object(),
           })),
