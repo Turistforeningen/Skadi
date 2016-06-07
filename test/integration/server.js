@@ -5,7 +5,7 @@ const request = require('supertest');
 const app = request(require('../../'));
 const Joi = require('joi');
 
-const albumId = process.env.FOTOWEB_ALBUM_ID;
+const albumId = process.env.FOTOWEB_TEST_ALBUM_ID;
 
 describe('server', () => {
   it('index', done => {

@@ -14,8 +14,8 @@ describe('health', () => {
         services: [{
           name: 'Fotoweb',
           status: {
-            server: process.env.FOTOWEB_API_SERVER,
-            version: process.env.FOTOWEB_API_VERSION,
+            server: process.env.FOTOWEB_TEST_API_SERVER,
+            version: process.env.FOTOWEB_TEST_API_VERSION,
             archives: '/fotoweb/archives/',
             albums: '/fotoweb/albums/',
             taxonomies: '/fotoweb/taxonomies/',
