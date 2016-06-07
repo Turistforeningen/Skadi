@@ -129,6 +129,11 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
     }
 
     body.data = body.data.map(photo => {
+      const photoId = photo.filename;
+
+      photo.id = photoId;
+      photo.albumId = albumId;
+
       const metadata = {};
 
       for (const key in photo.metadata) {

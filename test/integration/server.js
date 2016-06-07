@@ -126,6 +126,8 @@ describe('server', () => {
 
         const schema = {
           data: Joi.array().items(Joi.object().keys({
+            id: Joi.string(),
+            albumId: Joi.string(),
             href: Joi.string(),
             archiveHREF: Joi.string(),
             linkstance: Joi.string(),

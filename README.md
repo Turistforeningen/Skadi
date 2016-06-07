@@ -68,7 +68,7 @@ $ curl https://example.com/v1/albums/{album}/photos
 ```json
 {
   "data": [{
-    "filename": "_DSC0045_1.JPG",
+    "id": "_DSC0045_1.JPG",
     "previews": [{}, {}, {}],
     "metadata": {
       "albums": ["Blinkskudd", "DNT Sentralt"],
@@ -80,7 +80,7 @@ $ curl https://example.com/v1/albums/{album}/photos
     },
     ...
   }, {
-    "filename": "_DSC0045.JPG",
+    "id": "_DSC0045.JPG",
     "previews": [{}, {}, {}],
     "metadata": {},
     ...
