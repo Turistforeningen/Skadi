@@ -161,7 +161,7 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
 
       const metadata = {};
 
-      for (const key in photo.metadata) {
+      for (const key in photo.metadata) { // eslint-disable-line no-restricted-syntax
         if (fotoweb.PHOTO_METADATA_KEYS.has(key)) {
           metadata[fotoweb.PHOTO_METADATA_KEYS.get(key)] = photo.metadata[key].value;
         }
