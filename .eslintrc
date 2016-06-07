@@ -14,7 +14,6 @@
     },
     "rules": {
       "strict": [2, "global"],
-      "no-param-reassign": [2, { "props": false }],
-      "no-underscore-dangle": [2, { "allow": ["_id", "_hasOpened"] }]
+      "no-param-reassign": [2, { "props": false }]
     }
 }
