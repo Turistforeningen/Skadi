@@ -144,10 +144,14 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
 
       photo.metadata = metadata;
 
+      photo.previews = photo.previews.map(preview => {
+        preview.href = [ fotoweb.BASE_URL, preview.href ].join('');
+        return preview;
+      });
+
       return photo;
     });
 
-    // @TODO add full url to `previews[i].href`
     // @TODO add links header
 
     return res.json(body);
