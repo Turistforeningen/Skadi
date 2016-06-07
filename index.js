@@ -41,7 +41,7 @@ app.get('/CloudHealthCheck', healthCheck({
   name: 'Fotoweb',
   check: cb => {
     const opts = {
-      url: `${process.env.FOTOWEB_API_URL}/`,
+      url: `${fotoweb.API_URL}/`,
       json: true,
       headers: {
         Accept: 'application/vnd.fotoware.api-descriptor+json',
@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
 
 app.get('/v1/albums', (req, res, next) => {
   const opts = {
-    url: `${process.env.FOTOWEB_API_URL}/me/archives/`,
+    url: `${fotoweb.API_URL}/me/archives/`,
     json: true,
     headers: {
       Accept: 'application/vnd.fotoware.collectionlist+json',
@@ -105,7 +105,7 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
   const albumId = req.params.album;
 
   const opts = {
-    url: `${process.env.FOTOWEB_API_URL}/data/a/${albumId}/`,
+    url: `${fotoweb.API_URL}/data/a/${albumId}/`,
     json: true,
     headers: {
       Accept: 'application/vnd.fotoware.assetlist+json',
