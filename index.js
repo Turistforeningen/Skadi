@@ -134,31 +134,32 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
       photo.id = photoId;
       photo.albumId = albumId;
 
-      // Photo metadata are returned as cyptic integers keys from the API on the
-      // following format:
-      //
-      // "metadata": {
-      //   "80": { value: [ "Marius Dalseg Sætre" ] },
-      //   "120": { value: "Påsken 2016. Liomseter\nFoto Marius Dalseg Sætre" },
-      //   "221": { value: "Liomseter" },
-      //   "222": { value: "Langsua" },
-      //   "320": { value: "5" }
-      // }
-      //
-      // To the person who tought  this was a good way to integrate with other
-      // applications; what where  you smoking???
-      //
-      // So, in order to prevent further frustration when integrating we
-      // will translate the integres into properly named fields to make them
-      // usable like this:
-      //
-      // "metadata": {
-      //   "photagraphers": [ "Marius Dalseg Sætre" ],
-      //   "desciption": "Påsken 2016. Liomseter\nFoto Marius Dalseg Sætre",
-      //   "place": "Liomseter",
-      //   "area": "Langsua" }
-      // }
-
+       /*
+       // Photo metadata are returned as cryptic integers keys from the API on
+       // the following format:
+       //
+       // "metadata": {
+       //   "80": { value: [ "Marius Dalseg Sætre" ] },
+       //   "120": { value: "Påsken 2016. Liomseter\nFoto Marius Dalseg Sætre" },
+       //   "221": { value: "Liomseter" },
+       //   "222": { value: "Langsua" },
+       //   "320": { value: "5" }
+       // }
+       //
+       // To the person who thought this was a good way to integrate with other
+       // applications; what where you smoking???
+       //
+       // So, in order to prevent further frustration when integrating we
+       // will translate the integers into properly named fields to make them
+       // usable like this:
+       //
+       // "metadata": {
+       //   "photographers": [ "Marius Dalseg Sætre" ],
+       //   "description": "Påsken 2016. Liomseter\nFoto Marius Dalseg Sætre",
+       //   "place": "Liomseter",
+       //   "area": "Langsua" }
+       // }
+       */
       const metadata = {};
 
       for (const key in photo.metadata) { // eslint-disable-line no-restricted-syntax
@@ -169,6 +170,7 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
 
       photo.metadata = metadata;
 
+      /*
       // Preview urls are relative URLs to the domain of the Fotoweb
       // installation. If you intend to integrate outside of Fotoweb (why else
       // would you use the API) this does not make any sense at all!
@@ -176,7 +178,7 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
       // We make all them previews urls full URIs so we can just store them in a
       // database or display them directly to a user without having to prefix
       // the Fotoweb base url client side.
-
+      */
       photo.previews = photo.previews.map(preview => {
         preview.href = [fotoweb.BASE_URL, preview.href].join('');
         return preview;
