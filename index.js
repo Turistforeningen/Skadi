@@ -74,6 +74,10 @@ app.get('/v1/albums', (req, res, next) => {
     },
   };
 
+  if (req.query.page) {
+    opts.url = `${opts.url};p=${req.query.page}`;
+  }
+
   request.get(opts, (err, resp, body) => {
     if (err) {
       return next(new HttpError('Fotoweb API Failed', 502, err));
@@ -95,7 +99,13 @@ app.get('/v1/albums', (req, res, next) => {
       return album;
     });
 
-    // @TODO add links header
+    /* Rewrite Fotoweb API paging URLs to API wrapper URLs */
+    if (body.paging) {
+      const url = `${req.fullUrl}/v1/albums`;
+      body.paging = fotoweb.parser.paging(url, body.paging);
+
+      res.links(body.paging);
+    }
 
     return res.json(body);
   });
