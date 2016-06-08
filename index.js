@@ -128,47 +128,52 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
       return next(new HttpError('Fotoweb API returned no data', 502));
     }
 
-    body.data = body.data.map(photo => {
-      const photoId = photo.filename;
+    body.data = body.data.map(({
+      created,
+      modified,
+      filename,
+      filesize,
+      doctype,
+      previews: previewsOrg,
+      attributes,
+      metadata: metadataOrg,
+    }) => {
+      /* Images don't have a cononical ID; lets hope there are no duplicates */
+      const id = encodeURIComponent(filename);
 
-      photo.id = photoId;
-      photo.albumId = albumId;
-
-       /*
-       // Photo metadata are returned as cryptic integers keys from the API on
-       // the following format:
-       //
-       // "metadata": {
-       //   "80": { value: [ "Marius Dalseg Sætre" ] },
-       //   "120": { value: "Påsken 2016. Liomseter\nFoto Marius Dalseg Sætre" },
-       //   "221": { value: "Liomseter" },
-       //   "222": { value: "Langsua" },
-       //   "320": { value: "5" }
-       // }
-       //
-       // To the person who thought this was a good way to integrate with other
-       // applications; what where you smoking???
-       //
-       // So, in order to prevent further frustration when integrating we
-       // will translate the integers into properly named fields to make them
-       // usable like this:
-       //
-       // "metadata": {
-       //   "photographers": [ "Marius Dalseg Sætre" ],
-       //   "description": "Påsken 2016. Liomseter\nFoto Marius Dalseg Sætre",
-       //   "place": "Liomseter",
-       //   "area": "Langsua" }
-       // }
-       */
+      /*
+      // Photo metadata are returned as cryptic integers keys from the API on
+      // the following format:
+      //
+      // "metadata": {
+      //   "80": { value: [ "Marius Dalseg Sætre" ] },
+      //   "120": { value: "Påsken 2016. Liomseter\nFoto Marius Dalseg Sætre" },
+      //   "221": { value: "Liomseter" },
+      //   "222": { value: "Langsua" },
+      //   "320": { value: "5" }
+      // }
+      //
+      // To the person who thought this was a good way to integrate with other
+      // applications; what where you smoking???
+      //
+      // So, in order to prevent further frustration when integrating we
+      // will translate the integers into properly named fields to make them
+      // usable like this:
+      //
+      // "metadata": {
+      //   "photographers": [ "Marius Dalseg Sætre" ],
+      //   "description": "Påsken 2016. Liomseter\nFoto Marius Dalseg Sætre",
+      //   "place": "Liomseter",
+      //   "area": "Langsua" }
+      // }
+      */
       const metadata = {};
 
-      for (const key in photo.metadata) { // eslint-disable-line no-restricted-syntax
+      for (const key in metadataOrg) { // eslint-disable-line no-restricted-syntax
         if (fotoweb.PHOTO_METADATA_KEYS.has(key)) {
-          metadata[fotoweb.PHOTO_METADATA_KEYS.get(key)] = photo.metadata[key].value;
+          metadata[fotoweb.PHOTO_METADATA_KEYS.get(key)] = metadataOrg[key].value;
         }
       }
-
-      photo.metadata = metadata;
 
       /*
       // Preview urls are relative URLs to the domain of the Fotoweb
@@ -179,12 +184,23 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
       // database or display them directly to a user without having to prefix
       // the Fotoweb base url client side.
       */
-      photo.previews = photo.previews.map(preview => {
+      const previews = previewsOrg.map(preview => {
         preview.href = [fotoweb.BASE_URL, preview.href].join('');
         return preview;
       });
 
-      return photo;
+      return {
+        id,
+        albumId,
+        created,
+        modified,
+        filename,
+        filesize,
+        doctype,
+        previews,
+        attributes,
+        metadata,
+      };
     });
 
     // @TODO add links header
