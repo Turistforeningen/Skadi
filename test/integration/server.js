@@ -147,7 +147,7 @@ describe('server', () => {
                 cameraModel: Joi.string(),
                 exposure: Joi.object(),
                 fNumber: Joi.number(),
-                focalLength: Joi.number().integer(),
+                focalLength: Joi.number(),
                 isoSpeed: Joi.number().integer(),
                 flash: Joi.object(),
               }),
