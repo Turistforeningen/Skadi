@@ -116,7 +116,7 @@ describe('server', () => {
   it('photos', function it(done) {
     this.timeout(10000);
 
-    const url = `/v1/albums/${albumId}/photos`;
+    const url = `/v1/albums/${albumId}/photos?page=5`;
 
     app.get(url)
       .set('Origin', 'https://example1.com')
@@ -165,10 +165,10 @@ describe('server', () => {
             }),
           })),
           paging: Joi.object().keys({
-            prev: Joi.string().allow(''),
-            next: Joi.string().allow(''),
-            first: Joi.string().allow(''),
-            last: Joi.string().allow(''),
+            prev: Joi.string(),
+            next: Joi.string(),
+            first: Joi.string(),
+            last: Joi.string(),
           }).allow(null),
         };
 
