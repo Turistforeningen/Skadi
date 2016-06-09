@@ -177,8 +177,14 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
     },
   };
 
+  const qs = [];
+
   if (req.query.page) {
-    opts.url = `${opts.url};p=${req.query.page}`;
+    qs.push(`${opts.url}?p=${req.query.page}`);
+  }
+
+  if (qs.length) {
+    opts.url = `${opts.url}?${qs.join('&')}`;
   }
 
   request.get(opts, (err, resp, body) => {
