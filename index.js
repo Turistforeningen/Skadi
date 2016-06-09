@@ -133,6 +133,11 @@ app.get('/v1/albums', (req, res, next) => {
       const id = data.split('/')[4];
       const photosUrl = `${req.fullUrl}/v1/albums/${id}/photos`;
 
+      const posterImages = posterImagesOrg.map(preview => {
+        preview.href = [fotoweb.BASE_URL, preview.href].join('');
+        return preview;
+      });
+
       return {
         id,
         name,
@@ -143,7 +148,7 @@ app.get('/v1/albums', (req, res, next) => {
         deleted,
         archived,
         photosUrl,
-        posterImages: posterImagesOrg,
+        posterImages,
         color,
       };
     });

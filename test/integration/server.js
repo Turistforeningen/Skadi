@@ -80,7 +80,7 @@ describe('server', () => {
               size: Joi.number().integer(),
               width: Joi.number().integer(),
               height: Joi.number().integer(),
-              href: Joi.string(),
+              href: Joi.string().uri({ scheme: ['http'] }),
               square: Joi.boolean(),
             })),
             color: Joi.string(),
@@ -115,7 +115,13 @@ describe('server', () => {
             filename: Joi.string(),
             filesize: Joi.number().integer(),
             doctype: Joi.string().valid('image'),
-            previews: Joi.array(),
+            previews: Joi.array().items(Joi.object().keys({
+              size: Joi.number().integer(),
+              width: Joi.number().integer(),
+              height: Joi.number().integer(),
+              href: Joi.string().uri({ scheme: ['http'] }),
+              square: Joi.boolean(),
+            })),
             attributes: Joi.object().keys({
               imageattributes: Joi.object().keys({
                 pixelwidth: Joi.number().integer(),
