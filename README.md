@@ -93,32 +93,40 @@ $ curl https://example.com/v1/albums
 **Request:**
 
 ```
-$ curl https://example.com/v1/albums/{album}/photos
+$ curl https://example.com/v1/albums/{album}/photos?{page=n}
 ```
 
 **Response:**
 
 ```json
 {
-  "data": [{
-    "id": "_DSC0045_1.JPG",
-    "previews": [{}, {}, {}],
-    "metadata": {
-      "albums": ["Blinkskudd", "DNT Sentralt"],
-      "tags": ["finvær", "hytte", "vinter"],
-      "photographers": "Marius Dalseg Sætre",
-      "description": "Påskereportasje Liomseter",
-      "place": "Liomseter",
-      "area": "Langsua"
+  "data": [
+    {
+      "id": "DSC0001.JPG",
+      "albumId": "5001.AbCd",
+      "created": "2016-06-07T12:00:57.680Z",
+      "modified": "2016-06-07T12:00:57.000Z",
+      "filename": "DSC0001.JPG",
+      "filesize": 2404352,
+      "previews": [{...}, {...}],
+      "attributes": {...},
+      "metadata": {
+        "albums": ["Blinkskudd", "DNT Sentralt"],
+        "tags": ["finvær", "hytte", "vinter"],
+        "photographers": "Marius Dalseg Sætre",
+        "description": "Påskereportasje Liomseter",
+        "place": "Liomseter",
+        "area": "Langsua"
+      }
     },
     ...
-  }, {
-    "id": "_DSC0045.JPG",
-    "previews": [{}, {}, {}],
-    "metadata": {},
-    ...
-  }],
-  "paging": {...}
+  ],
+  "paging": {
+    "prev": "https://example.com/v1/albums/5001.AbCd/photos?page=9",
+    "next": "https://example.com/v1/albums/5001.AbCd/photos?page=7",
+    "first": "https://example.com/v1/albums/5001.AbCd/photos",
+    "last": "https://example.com/v1/albums/5001.AbCd/photos?page=0"
+  }
 }
 ```
 
