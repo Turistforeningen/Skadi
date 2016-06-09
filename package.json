@@ -3,6 +3,11 @@
   "version": null,
   "description": "Cors proxy for the Fotoware / Fotoweb REST API",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "lib",
+    "test"
+  ],
   "scripts": {
     "codacy-coverage": "codacy-coverage",
     "cover": "istanbul cover --report lcovonly ./node_modules/.bin/_mocha -- -r test/support/env -R spec test/**/",
