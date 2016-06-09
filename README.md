@@ -68,18 +68,23 @@ $ curl https://example.com/v1/albums
 
 ```json
 {
-  "data": [{
-    "id": "5001.AbCd",
-    "name": "My First Album",
-    "photosUrl": "http://example.com/v1/albums/5001.AbCd/photos",
+  "data": [
+    {
+      "id": "5001.AbCd",
+      "name": "My Album",
+      "description": "Description of this album",
+      "type": "archive",
+      "created": "1601-01-01T00:00:00.000Z",
+      "modified": "2016-05-19T09:20:42.584Z",
+      "deleted": null,
+      "archived": null,
+      "photosUrl": "http://example.com/v1/albums/5001.AbCd/photos",
+      "posterImages": [{...}, {...}],
+      "color": "#595959"
+    },
     ...
-  }, {
-    "id": "5002.EfGh",
-    "name": "My Second Album",
-    "photosUrl": "http://example.com/v1/albums/5002.EfGh/photos",
-    ...
-  }],
-  "paging": {...}
+  ],
+  "paging": null
 }
 ```
 
