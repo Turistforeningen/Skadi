@@ -93,7 +93,7 @@ $ curl https://example.com/v1/albums
 **Request:**
 
 ```
-$ curl https://example.com/v1/albums/{album}/photos?{page=n}
+$ curl https://example.com/v1/albums/{album}/photos?{page=n}&{tags=tag1,tag2}
 ```
 
 **Response:**
