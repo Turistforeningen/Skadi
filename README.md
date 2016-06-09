@@ -28,6 +28,34 @@ century by Snorri Sturluson, and in the works of skalds.
 
 ## API v1
 
+**Request:**
+
+All requests to the API should be GET requests unless otherwise stated.
+
+**Response:**
+
+Content returned from the API will have the Content Type `application/json` with
+UTF-8 text encoding.
+
+### Tags
+
+**Request:**
+
+```
+$ curl https://example.com/v1/tags
+```
+
+**Response:**
+
+```
+[
+  { "key": "sted", "val": "Sted" },
+  { "key": "aktivitet", "val": "Aktivitet" },
+  { "key": "arrangementer", "val": "Arrangementer" },
+  ...
+]
+```
+
 ### Albums
 
 **Request:**
