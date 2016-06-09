@@ -19,6 +19,41 @@ describe('server', () => {
       .end(done);
   });
 
+  it('tags', function it(done) {
+    this.timeout(10000);
+
+    const url = '/v1/tags';
+
+    app.get(url)
+      .set('Origin', 'https://example1.com')
+      .expect(200)
+      .end((err, res) => {
+        assert.ifError(err);
+
+        assert.deepEqual(res.body, [
+          { key: 'sted', val: 'Sted' },
+          { key: 'aktivitet', val: 'Aktivitet' },
+          { key: 'arrangementer', val: 'Arrangementer' },
+          { key: '%C3%A5rstid', val: 'Årstid' },
+          { key: 'v%C3%A6r', val: 'Vær' },
+          { key: 'menneske', val: 'Menneske' },
+          { key: 'organisasjon', val: 'Organisasjon' },
+          { key: 'medlemsforening', val: 'Medlemsforening' },
+          { key: 'utstyr', val: 'Utstyr' },
+          { key: 'menneskeskapt%20objekt', val: 'Menneskeskapt objekt' },
+          { key: 'flora', val: 'Flora' },
+          { key: 'dyr', val: 'Dyr' },
+          { key: 'hytter', val: 'Hytter' },
+          { key: 'blinkskudd', val: 'Blinkskudd' },
+          { key: 'haukeliseter', val: 'Haukeliseter' },
+          { key: 'preikestolen', val: 'Preikestolen' },
+          { key: 'kurs', val: 'Kurs' },
+        ]);
+
+        done();
+      });
+  });
+
   it('albums', function it(done) {
     this.timeout(10000);
 

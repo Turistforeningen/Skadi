@@ -64,6 +64,32 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/v1/tags', (req, res, next) => {
+  const opts = {
+    url: `${fotoweb.API_URL}/taxonomies/`,
+    json: true,
+    headers: {
+      Accept: 'application/json',
+      FWAPIToken: process.env.FOTOWEB_API_TOKEN,
+    },
+  };
+
+  request.get(opts, (err, resp, body) => {
+    if (err) {
+      return next(new HttpError('Fotoweb API Failed', 502, err));
+    }
+
+    return body.forEach(data => {
+      if (data.field === 25) {
+        res.json(data.items.map(item => ({
+          key: encodeURIComponent(item.value.toLowerCase()),
+          val: item.value,
+        })));
+      }
+    });
+  });
+});
+
 app.get('/v1/albums', (req, res, next) => {
   const opts = {
     url: `${fotoweb.API_URL}/me/archives/`,
