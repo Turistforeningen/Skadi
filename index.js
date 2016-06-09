@@ -183,6 +183,10 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
     qs.push(`${opts.url}?p=${req.query.page}`);
   }
 
+  if (req.query.tags) {
+    req.query.tags.split(',').forEach(tag => qs.push(`25=${tag}`));
+  }
+
   if (qs.length) {
     opts.url = `${opts.url}?${qs.join('&')}`;
   }

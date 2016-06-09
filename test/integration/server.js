@@ -98,7 +98,7 @@ describe('server', () => {
   it('photos', function it(done) {
     this.timeout(10000);
 
-    const url = `/v1/albums/${albumId}/photos?page=5`;
+    const url = `/v1/albums/${albumId}/photos?page=5&tags=sted,aktivitet`;
 
     app.get(url)
       .set('Origin', 'https://example1.com')
