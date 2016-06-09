@@ -47,7 +47,7 @@ $ curl https://example.com/v1/tags
 
 **Response:**
 
-```
+```json
 [
   { "key": "sted", "val": "Sted" },
   { "key": "aktivitet", "val": "Aktivitet" },
