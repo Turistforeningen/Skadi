@@ -22,7 +22,7 @@ describe('server', () => {
   it('albums', function it(done) {
     this.timeout(10000);
 
-    const url = '/v1/albums/';
+    const url = '/v1/albums';
 
     app.get(url)
       .set('Origin', 'https://example1.com')
