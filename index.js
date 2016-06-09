@@ -118,11 +118,34 @@ app.get('/v1/albums', (req, res, next) => {
       return next(new HttpError('Fotoweb API returned no data', 502));
     }
 
-    body.data = body.data.map(album => {
-      album.id = album.data.split('/')[4];
-      album.photosUrl = `${req.fullUrl}/v1/albums/${album.id}/photos`;
+    body.data = body.data.map(({
+      name,
+      data,
+      description,
+      type,
+      created,
+      modified,
+      deleted,
+      archived,
+      posterImages: posterImagesOrg,
+      color,
+    }) => {
+      const id = data.split('/')[4];
+      const photosUrl = `${req.fullUrl}/v1/albums/${id}/photos`;
 
-      return album;
+      return {
+        id,
+        name,
+        description,
+        type,
+        created,
+        modified,
+        deleted,
+        archived,
+        photosUrl,
+        posterImages: posterImagesOrg,
+        color,
+      };
     });
 
     /* Rewrite Fotoweb API paging URLs to API wrapper URLs */
