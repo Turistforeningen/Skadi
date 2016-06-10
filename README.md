@@ -39,7 +39,7 @@ UTF-8 text encoding.
 
 ### Tags
 
-**Request:**
+**Endpoint:**
 
 ```
 $ curl https://example.com/v1/tags
@@ -58,7 +58,7 @@ $ curl https://example.com/v1/tags
 
 ### Albums
 
-**Request:**
+**Endpoint:**
 
 ```
 $ curl https://example.com/v1/albums
@@ -90,7 +90,7 @@ $ curl https://example.com/v1/albums
 
 ### Photos
 
-**Request:**
+**Endpoint:**
 
 ```
 $ curl https://example.com/v1/albums/{album}/photos?{page=n}&{tags=tag1,tag2}
