@@ -193,4 +193,19 @@ describe('server', () => {
           });
       });
   });
+
+  it('tags', function it(done) {
+    this.timeout(10000);
+
+    const url = `/v1/albums/${albumId}/photos?tags=Troll`;
+
+    app.get(url)
+      .set('Origin', 'https://example1.com')
+      .expect(200)
+      .expect(res => res.body.data.forEach(data => {
+        const tags = new Set(data.metadata.tags);
+        assert(tags.has('troll') || tags.has('Troll'));
+      }))
+      .end(done);
+  });
 });
