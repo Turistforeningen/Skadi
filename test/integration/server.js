@@ -98,7 +98,7 @@ describe('server', () => {
   it('photos', function it(done) {
     this.timeout(10000);
 
-    const url = `/v1/albums/${albumId}/photos?page=5&tags=sted,aktivitet`;
+    const url = `/v1/albums/${albumId}/photos`;
 
     app.get(url)
       .set('Origin', 'https://example1.com')
@@ -164,6 +164,32 @@ describe('server', () => {
         assert.ifError(error);
 
         done();
+      });
+  });
+
+  it('paging', function it(done) {
+    this.timeout(10000);
+
+    const url = `/v1/albums/${albumId}/photos`;
+
+    app.get(`${url}?page=3`)
+      .set('Origin', 'https://example1.com')
+      .expect(200)
+      .end((err, res) => {
+        assert.ifError(err);
+        const arr1 = res.body.data.map(d => d.id);
+
+        app.get(`${url}?page=2`)
+          .set('Origin', 'https://example1.com')
+          .expect(200)
+          .end((err, res) => {
+            assert.ifError(err);
+            const arr2 = res.body.data.map(d => d.id);
+
+            assert.notDeepEqual(arr1, arr2);
+
+            done();
+          });
       });
   });
 });

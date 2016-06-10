@@ -177,11 +177,11 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
     },
   };
 
-  const qs = [];
-
   if (req.query.page) {
-    qs.push(`p=${req.query.page}`);
+    opts.url = `${opts.url};p=${req.query.page}`;
   }
+
+  const qs = [];
 
   if (req.query.tags) {
     const key = fotoweb.PHOTO_METADATA_IDS.get('tags');
