@@ -93,8 +93,16 @@ $ curl https://example.com/v1/albums
 **Endpoint:**
 
 ```
-$ curl https://example.com/v1/albums/{album}/photos?{page=n}&{tags=tag1,tag2}
+$ curl https://example.com/v1/albums/{album}/photos
 ```
+
+**Parameters**
+
+* `{album}` - unique album obtained from `/v1/albums` endpoint.
+
+* `?page` - pagination; see `paging` property in JSON response
+* `?tags` - search by tag names (comma separated)
+* `?query` - searcb by free text query
 
 **Response:**
 
