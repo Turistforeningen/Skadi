@@ -180,7 +180,7 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
   const qs = [];
 
   if (req.query.page) {
-    qs.push(`${opts.url}?p=${req.query.page}`);
+    qs.push(`p=${req.query.page}`);
   }
 
   if (req.query.tags) {
