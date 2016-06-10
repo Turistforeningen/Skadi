@@ -176,16 +176,16 @@ describe('server', () => {
     app.get(`${url}?page=3`)
       .set('Origin', 'https://example1.com')
       .expect(200)
-      .end((err, res) => {
-        assert.ifError(err);
-        const arr1 = res.body.data.map(d => d.id);
+      .end((err1, res1) => {
+        assert.ifError(err1);
+        const arr1 = res1.body.data.map(d => d.id);
 
         app.get(`${url}?page=2`)
           .set('Origin', 'https://example1.com')
           .expect(200)
-          .end((err, res) => {
-            assert.ifError(err);
-            const arr2 = res.body.data.map(d => d.id);
+          .end((err2, res2) => {
+            assert.ifError(err2);
+            const arr2 = res2.body.data.map(d => d.id);
 
             assert.notDeepEqual(arr1, arr2);
 
