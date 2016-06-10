@@ -126,9 +126,10 @@ describe('server', () => {
               imageattributes: Joi.object().keys({
                 pixelwidth: Joi.number().integer(),
                 pixelheight: Joi.number().integer(),
-                resolution: Joi.number().integer(),
+                resolution: Joi.number(),
                 flipmirror: Joi.number().integer(),
-                rotation: Joi.number().integer().valid([-180, -90, 0, 90, 180]),
+                rotation: Joi.number().integer().valid([-180, -90, 0, 90, 180, 270]),
+                softcrop: Joi.object(),
                 colorspace: Joi.string(),
               }),
               photoAttributes: Joi.object().keys({
