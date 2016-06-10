@@ -80,7 +80,7 @@ app.get('/v1/tags', (req, res, next) => {
     }
 
     return body.forEach(data => {
-      if (data.field === 25) {
+      if (data.field === parseInt(fotoweb.PHOTO_METADATA_IDS.get('tags'), 10)) {
         res.json(data.items.map(item => ({
           key: encodeURIComponent(item.value.toLowerCase()),
           val: item.value,
@@ -184,7 +184,8 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
   }
 
   if (req.query.tags) {
-    req.query.tags.split(',').forEach(tag => qs.push(`25=${tag}`));
+    const key = fotoweb.PHOTO_METADATA_IDS.get('tags');
+    req.query.tags.split(',').forEach(tag => qs.push(`${key}=${tag}`));
   }
 
   if (qs.length) {
