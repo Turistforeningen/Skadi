@@ -183,10 +183,12 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
 
   const qs = [];
 
-  if (req.query.tags) {
-    const key = fotoweb.PHOTO_METADATA_IDS.get('tags');
-    req.query.tags.split(',').forEach(tag => qs.push(`${key}=${tag}`));
-  }
+  Object.keys(req.query).forEach(tag => {
+    if (fotoweb.PHOTO_METADATA_IDS.has(tag)) {
+      const key = fotoweb.PHOTO_METADATA_IDS.get(tag);
+      req.query[tag].split(',').forEach(val => qs.push(`${key}=${val}`));
+    }
+  });
 
   if (qs.length) {
     opts.url = `${fotoweb.API_URL}/archives/${albumId.split('.')[0]}/`;
