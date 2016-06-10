@@ -208,4 +208,21 @@ describe('server', () => {
       }))
       .end(done);
   });
+
+  it('?query', function it(done) {
+    this.timeout(10000);
+
+    const url = `/v1/albums/${albumId}/photos?query=Flaatten`;
+
+    app.get(url)
+      .set('Origin', 'https://example1.com')
+      .expect(200)
+      .expect(res => res.body.data.forEach(data => {
+        assert(
+          /flaatten/i.test((data.metadata.photographers || []).join(' ')) ||
+          /flaatten/i.test((data.metadata.persons || ''))
+        );
+      }))
+      .end(done);
+  });
 });
