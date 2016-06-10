@@ -189,6 +189,7 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
   }
 
   if (qs.length) {
+    opts.url = `${fotoweb.API_URL}/archives/${albumId.split('.')[0]}/`;
     opts.url = `${opts.url}?${qs.join('&')}`;
   }
 
