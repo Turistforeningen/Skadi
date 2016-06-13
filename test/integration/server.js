@@ -9,12 +9,12 @@ const albumId = process.env.FOTOWEB_TEST_ALBUM_ID;
 
 describe('server', () => {
   it('index', done => {
-    app.get('/')
+    app.get('/latest/')
       .set('Origin', 'https://example1.com')
       .expect(200)
       .expect((res) => {
-        assert(/v1\/albums$/.test(res.body.v1.albums_url));
-        assert(/v1\/albums\/{album}\/photos$/.test(res.body.v1.photos_url));
+        assert(/latest\/albums$/.test(res.body.albums_url));
+        assert(/latest\/albums\/{album}\/photos$/.test(res.body.photos_url));
       })
       .end(done);
   });
@@ -22,7 +22,7 @@ describe('server', () => {
   it('tags', function it(done) {
     this.timeout(10000);
 
-    const url = '/v1/tags';
+    const url = '/latest/tags';
 
     app.get(url)
       .set('Origin', 'https://example1.com')
@@ -57,7 +57,7 @@ describe('server', () => {
   it('albums', function it(done) {
     this.timeout(10000);
 
-    const url = '/v1/albums';
+    const url = '/latest/albums';
 
     app.get(url)
       .set('Origin', 'https://example1.com')
@@ -75,7 +75,7 @@ describe('server', () => {
             modified: Joi.date().iso(),
             deleted: Joi.date().iso().allow(null),
             archived: Joi.date().iso().allow(null),
-            photosUrl: Joi.string().regex(/\/v1\/albums\/[^\/]+\/photos$/),
+            photosUrl: Joi.string().regex(/\/latest\/albums\/[^\/]+\/photos$/),
             posterImages: Joi.array().items(Joi.object().keys({
               size: Joi.number().integer(),
               width: Joi.number().integer(),
@@ -98,7 +98,7 @@ describe('server', () => {
   it('photos', function it(done) {
     this.timeout(10000);
 
-    const url = `/v1/albums/${albumId}/photos`;
+    const url = `/latest/albums/${albumId}/photos`;
 
     app.get(url)
       .set('Origin', 'https://example1.com')
@@ -171,7 +171,7 @@ describe('server', () => {
   it('paging', function it(done) {
     this.timeout(10000);
 
-    const url = `/v1/albums/${albumId}/photos`;
+    const url = `/latest/albums/${albumId}/photos`;
 
     app.get(`${url}?page=3`)
       .set('Origin', 'https://example1.com')
@@ -197,7 +197,7 @@ describe('server', () => {
   it('tags', function it(done) {
     this.timeout(10000);
 
-    const url = `/v1/albums/${albumId}/photos?tags=Troll`;
+    const url = `/latest/albums/${albumId}/photos?tags=Troll`;
 
     app.get(url)
       .set('Origin', 'https://example1.com')
@@ -212,7 +212,7 @@ describe('server', () => {
   it('?query', function it(done) {
     this.timeout(10000);
 
-    const url = `/v1/albums/${albumId}/photos?query=Flaatten`;
+    const url = `/latest/albums/${albumId}/photos?query=Flaatten`;
 
     app.get(url)
       .set('Origin', 'https://example1.com')

@@ -19,25 +19,26 @@ const responseTime = require('response-time');
 const HttpError = require('@starefossen/http-error');
 
 const app = module.exports = express();
+const router = new express.Router();
 
 app.set('json spaces', 2);
 app.set('x-powered-by', false);
 app.set('etag', false);
 
-app.use(compression());
-app.use(responseTime());
+router.use(compression());
+router.use(responseTime());
 
 // Full URL
 const fullUrl = require('./lib/express-full-url');
-app.use(fullUrl);
+router.use(fullUrl);
 
 // Cors Headers
 const corsHeaders = require('@starefossen/express-cors');
-app.use(corsHeaders.middleware);
+router.use(corsHeaders.middleware);
 
 // Health Check
 const healthCheck = require('@starefossen/express-health');
-app.get('/CloudHealthCheck', healthCheck({
+router.get('/CloudHealthCheck', healthCheck({
   name: 'Fotoweb',
   check: cb => {
     const opts = {
@@ -55,16 +56,14 @@ app.get('/CloudHealthCheck', healthCheck({
   },
 }));
 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.json({
-    v1: {
-      albums_url: `${req.fullUrl}/v1/albums`,
-      photos_url: `${req.fullUrl}/v1/albums/{album}/photos`,
-    },
+    albums_url: `${req.fullUrl}/albums`,
+    photos_url: `${req.fullUrl}/albums/{album}/photos`,
   });
 });
 
-app.get('/v1/tags', (req, res, next) => {
+router.get('/tags', (req, res, next) => {
   const opts = {
     url: `${fotoweb.API_URL}/taxonomies/`,
     json: true,
@@ -90,7 +89,7 @@ app.get('/v1/tags', (req, res, next) => {
   });
 });
 
-app.get('/v1/albums', (req, res, next) => {
+router.get('/albums', (req, res, next) => {
   const opts = {
     url: `${fotoweb.API_URL}/me/archives/`,
     json: true,
@@ -131,7 +130,7 @@ app.get('/v1/albums', (req, res, next) => {
       color,
     }) => {
       const id = data.split('/')[4];
-      const photosUrl = `${req.fullUrl}/v1/albums/${id}/photos`;
+      const photosUrl = `${req.fullUrl}/albums/${id}/photos`;
 
       const posterImages = posterImagesOrg.map(preview => {
         preview.href = [fotoweb.BASE_URL, preview.href].join('');
@@ -155,7 +154,7 @@ app.get('/v1/albums', (req, res, next) => {
 
     /* Rewrite Fotoweb API paging URLs to API wrapper URLs */
     if (body.paging) {
-      const url = `${req.fullUrl}/v1/albums`;
+      const url = `${req.fullUrl}/albums`;
       body.paging = fotoweb.parser.paging(url, body.paging);
 
       res.links(body.paging);
@@ -165,7 +164,7 @@ app.get('/v1/albums', (req, res, next) => {
   });
 });
 
-app.get('/v1/albums/:album/photos', (req, res, next) => {
+router.get('/albums/:album/photos', (req, res, next) => {
   const albumId = req.params.album;
 
   const opts = {
@@ -287,7 +286,7 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
 
     /* Rewrite Fotoweb API paging URLs to API wrapper URLs */
     if (body.paging) {
-      const url = `${req.fullUrl}/v1/albums/${albumId}/photos`;
+      const url = `${req.fullUrl}/albums/${albumId}/photos`;
       body.paging = fotoweb.parser.paging(url, body.paging);
 
       res.links(body.paging);
@@ -298,14 +297,14 @@ app.get('/v1/albums/:album/photos', (req, res, next) => {
 });
 
 // Not Found
-app.use((req, res, next) => next(new HttpError('Not Found', 404)));
+router.use((req, res, next) => next(new HttpError('Not Found', 404)));
 
 // Sentry Error Handling
-app.use(raven.middleware.express.requestHandler(sentry));
-app.use(raven.middleware.express.errorHandler(sentry));
+router.use(raven.middleware.express.requestHandler(sentry));
+router.use(raven.middleware.express.errorHandler(sentry));
 
 // Final Error Handling
-app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+router.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   // Wrap non-http errors
   if (!(err instanceof HttpError)) {
     err = new HttpError(err.message, 500, err); // eslint-disable-line no-param-reassign
@@ -325,6 +324,8 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 
   res.status(err.code).json(err.toJSON());
 });
+
+app.use(process.env.VIRTUAL_PATH, router);
 
 /* istanbul ignore if */
 if (!module.parent) {

@@ -5,7 +5,7 @@ const app = request(require('../../'));
 
 describe('cors', () => {
   it('rejects request without origin header', done => {
-    app.get('/')
+    app.get('/latest/')
       .expect(403)
       .expect({
         code: 403,
@@ -14,7 +14,7 @@ describe('cors', () => {
   });
 
   it('rejects request from uknown domain', done => {
-    app.get('/')
+    app.get('/latest/')
       .set('Origin', 'https://invalid.com')
       .expect(403)
       .expect({
@@ -24,7 +24,7 @@ describe('cors', () => {
   });
 
   it('accepts request from known domain', done => {
-    app.get('/')
+    app.get('/latest/')
       .set('Origin', 'https://example1.com')
       .expect(200)
       .expect('Access-Control-Allow-Origin', 'https://example1.com')

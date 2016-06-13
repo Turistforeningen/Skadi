@@ -5,7 +5,7 @@ const app = request(require('../../'));
 
 describe('health', () => {
   it('checks access to API', done => {
-    app.get('/CloudHealthCheck')
+    app.get('/latest/CloudHealthCheck')
       .set('Origin', 'https://example1.com')
       .expect(200)
       .expect({
