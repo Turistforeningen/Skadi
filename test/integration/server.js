@@ -42,6 +42,7 @@ describe('server', () => {
           { key: 'medlemsforening', val: 'Medlemsforening' },
           { key: 'menneske', val: 'Menneske' },
           { key: 'menneskeskapt%20objekt', val: 'Menneskeskapt objekt' },
+          { key: 'mittlekeland', val: 'Mittlekeland' },
           { key: 'organisasjon', val: 'Organisasjon' },
           { key: 'preikestolen', val: 'Preikestolen' },
           { key: 'sted', val: 'Sted' },
