@@ -30,26 +30,25 @@ describe('server', () => {
       .end((err, res) => {
         assert.ifError(err);
 
-        assert.deepEqual(res.body, [
-          { key: 'aktivitet', val: 'Aktivitet' },
-          { key: 'arrangementer', val: 'Arrangementer' },
-          { key: 'blinkskudd', val: 'Blinkskudd' },
-          { key: 'dyr', val: 'Dyr' },
-          { key: 'flora', val: 'Flora' },
-          { key: 'haukeliseter', val: 'Haukeliseter' },
-          { key: 'hytter', val: 'Hytter' },
-          { key: 'kurs', val: 'Kurs' },
-          { key: 'medlemsforening', val: 'Medlemsforening' },
-          { key: 'menneske', val: 'Menneske' },
-          { key: 'menneskeskapt%20objekt', val: 'Menneskeskapt objekt' },
-          { key: 'mittlekeland', val: 'Mittlekeland' },
-          { key: 'organisasjon', val: 'Organisasjon' },
-          { key: 'preikestolen', val: 'Preikestolen' },
-          { key: 'sted', val: 'Sted' },
-          { key: 'utstyr', val: 'Utstyr' },
-          { key: 'v%C3%A6r', val: 'Vær' },
-          { key: '%C3%A5rstid', val: 'Årstid' },
-        ]);
+        const tags = new Set(res.body.map(item => item.key));
+        [
+          'aktivitet',
+          'arrangementer',
+          'aktivitet',
+          'arrangementer',
+          'blinkskudd',
+          'dyr',
+          'flora',
+          'hytter',
+          'kurs',
+          'medlemsforening',
+          'menneske',
+          'mittlekeland',
+          'sted',
+          'utstyr',
+          'v%C3%A6r',
+          '%C3%A5rstid',
+        ].forEach(tag => assert(tags.has(tag)));
 
         done();
       });
