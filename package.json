@@ -16,8 +16,9 @@
     "nsp": "nsp check",
     "semantic-release": "semantic-release",
     "start": "supervisor -w index.js,lib -e js index.js",
-    "test": "mocha -r test/support/env -R tap -b --check-leaks test/**/",
-    "test:watch": "mocha -r test/support/env -R progress -b --check-leaks -w test/**/"
+    "test": "mocha -b -c --check-leaks -R tap -r test/support/env test/**",
+    "test:watch": "mocha -w -b -c --check-leaks -R progress -r test/support/env test/**",
+    "greenkeeper-postpublish": "greenkeeper-postpublish"
   },
   "repository": {
     "type": "git",
@@ -52,6 +53,7 @@
     "eslint": "^2.11.0",
     "eslint-config-airbnb-base": "^3.0.1",
     "eslint-plugin-import": "^1.8.1",
+    "greenkeeper-postpublish": "^1.0.0",
     "istanbul": "^0.4.3",
     "joi": "^8.4.0",
     "mocha": "^2.5.3",
