@@ -212,16 +212,21 @@ describe('server', () => {
 
   it('?query', function it(done) {
     this.timeout(10000);
+    const queryStr = 'Flaatten';
+    const queryRe = new RegExp(queryStr, 'i');
 
-    const url = `/latest/albums/${albumId}/photos?query=Flaatten`;
+    const url = `/latest/albums/${albumId}/photos?query=${queryStr}`;
 
     app.get(url)
       .set('Origin', 'https://example1.com')
       .expect(200)
       .expect(res => res.body.data.forEach(data => {
         assert(
-          /flaatten/i.test((data.metadata.photographers || []).join(' ')) ||
-          /flaatten/i.test((data.metadata.persons || ''))
+          queryRe.test((data.metadata.photographers || []).join(' ')) ||
+          queryRe.test((data.metadata.persons || '')) ||
+          queryRe.test((data.metadata.tags || []).join(' ')) ||
+          queryRe.test((data.metadata.description || '')) ||
+          queryRe.test((data.filename || ''))
         );
       }))
       .end(done);
