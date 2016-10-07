@@ -176,10 +176,6 @@ router.get('/albums/:album/photos', (req, res, next) => {
     },
   };
 
-  if (req.query.page) {
-    opts.url = `${opts.url};p=${req.query.page}`;
-  }
-
   const qs = [];
 
   Object.keys(req.query).forEach(tag => {
@@ -189,9 +185,19 @@ router.get('/albums/:album/photos', (req, res, next) => {
     }
   });
 
+  /*
+  // If query has filtering queries, paging must be set a reqular query param.
+  // If not, paging is set as a semi colon param (second conditional).
+  */
   if (qs.length) {
     opts.url = `${fotoweb.API_URL}/archives/${albumId.split('.')[0]}/`;
     opts.url = `${opts.url}?${qs.join('&')}`;
+
+    if (req.query.page) {
+      opts.url = `${opts.url}&p=${req.query.page}`;
+    }
+  } else if (req.query.page) {
+    opts.url = `${opts.url};p=${req.query.page}`;
   }
 
   request.get(opts, (err, resp, body) => {
