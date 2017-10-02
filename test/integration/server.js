@@ -76,7 +76,7 @@ describe('server', () => {
             modified: Joi.date().iso(),
             deleted: Joi.date().iso().allow(null),
             archived: Joi.date().iso().allow(null),
-            photosUrl: Joi.string().regex(/\/latest\/albums\/[^\/]+\/photos$/),
+            photosUrl: Joi.string().regex(/\/latest\/albums\/[^\/]+\/photos$/), // eslint-disable-line no-useless-escape, max-len
             posterImages: Joi.array().items(Joi.object().keys({
               size: Joi.number().integer(),
               width: Joi.number().integer(),
