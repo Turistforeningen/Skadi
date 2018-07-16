@@ -26,7 +26,7 @@ containers:
   - name: skadi
     image: eu.gcr.io/dnt-docker-registry-public/skadi
     tag: "latest"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     environment:
       CORS_ALLOW_ORIGINS: "www.dnt.no,www.dnt.local,njordr.app.dnt.privat,njordr.app.dnt.local,localhost"
       CORS_EXPOSE_HEADERS: x-response-time
