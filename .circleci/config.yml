@@ -29,6 +29,7 @@ jobs:
             npm run cover
             cat ./coverage/lcov.info | npm run codacy-coverage    
       
+            
       - run:
           name: node security project
           command: npm run nsp
