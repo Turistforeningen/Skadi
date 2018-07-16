@@ -1,0 +1,91 @@
+# Beta values for jotunheimr.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# app name
+fullnameOverride: "skadi"
+
+# deployment spec
+replicaCount: 1
+restartPolicy: Always
+
+# autoscaling
+autoscaling: 
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 70
+
+# pod disruption budget
+disruptionBudget:
+  enabled: false
+  minAvailable: 1
+
+# containers
+containers:
+  - name: skadi
+    image: eu.gcr.io/dnt-docker-registry-public/skadi
+    tag: ""
+    pullPolicy: IfNotPresent
+    environment:
+      CORS_ALLOW_ORIGINS: "www.dnt.no,www.dnt.local,njordr.app.dnt.privat,njordr.app.dnt.local,localhost"
+      CORS_EXPOSE_HEADERS: x-response-time
+      CORS_REQUIRE_ORIGIN_FALSE: true
+      FORCE_SSL: true
+      FOTOWEB_API_PATH: /fotoweb
+      FOTOWEB_API_TOKEN: ""
+      FOTOWEB_BASE_URL: "https://bildearkiv.dnt.no"
+      HSTS_MAX_AGE: 31536000
+      NEW_RELIC_APP_NAME: Skadi
+      NEW_RELIC_LICENSE_KEY: ""
+      NEW_RELIC_LOG: stdout
+      NEW_RELIC_NO_CONFIG_FILE: true
+      NODE_ENV: production
+      VIRTUAL_HOST: "http://skadi.app.dnt.no/v1/*,https://skadi.app.dnt.no/v1/*"
+      VIRTUAL_HOST_WEIGHT: 20
+      VIRTUAL_PATH: /v1
+      VIRTUAL_PORT: 8080
+    ports:
+      - name: "http"
+        containerPort: 8080
+        protocol: TCP
+    resources: 
+      limits:
+        cpu: 250m
+        memory: 300Mi
+      # requests:
+      #  cpu: 100m
+      #  memory: 128Mi
+
+nodeSelector: {}
+
+affinity: {}
+
+tolerations: []
+
+# services
+services:
+  - name: skadi
+    expandName: true
+    type: ClusterIP
+    port: 8080
+
+ingress:
+  # Used to create an Ingress record.
+  enabled: true
+  hosts:
+    - host: skadi.beta.dnt.org
+      paths:
+        - path: /
+          serviceName: skadi
+          servicePort: 8080
+  annotations:
+    kubernetes.io/ingress.class: nginx
+
+  tls:
+    - secretName: beta-dnt-org-tls
+      hosts:
+        - skadi.beta.dnt.org
+cert:
+  enabled: false
+  issuer: "letsencrypt-production"
