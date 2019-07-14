@@ -42,7 +42,7 @@
     "@starefossen/express-health": "^1.0.0",
     "@starefossen/http-error": "^1.0.0",
     "compression": "^1.6.2",
-    "newrelic": "^1.28.0",
+    "newrelic": "^1.30.3",
     "express": "^4.13.4",
     "raven": "^0.11.0",
     "request": "^2.72.0",
